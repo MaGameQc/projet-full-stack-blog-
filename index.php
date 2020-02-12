@@ -192,13 +192,12 @@ foreach($datas as $value){
         <input type='submit' name='submitcomment$id' value='commenter '>
         </form>
         ".
-        "<p>" . $value['comments'] . "</p>".
+        "<p style='height: auto;'>" . $value['comments'] . "</p>".
     "</div>";  
     
          if(isset($_POST['submitcomment'.$id])){
-            $sql = "INSERT INTO comments (comments)
-VALUES ('$comments')";
-        // $sql = "UPDATE test SET comments ='$comments' WHERE id= $id";
+
+        $sql = "UPDATE test SET comments = concat(comments, '$comments', '\n') WHERE id= $id";
 
 
 if(mysqli_query($conn, $sql)){
