@@ -23,6 +23,11 @@ $titre = $_POST['titre'];
 $description = $_POST['description'];
 $description = mysqli_real_escape_string($conn, $_POST['description']);
 
+$comments = $_POST['comments'];
+// $comments = mysqli_real_escape_string($conn, $comments);
+
+
+
 
 
 
@@ -61,6 +66,7 @@ $date = date("Y-m-d H:i:s"); // If your mysql column is datetime
 
 } 
 
+
 // }
 
 
@@ -73,8 +79,19 @@ if(mysqli_num_rows($result) > 0){
     while($row = mysqli_fetch_assoc($result)){
         $datas[] = $row;
     }
+    $datas = array_reverse($datas);
+    
 }
 
+
+$commentDatas = array();
+if(mysqli_num_rows($result) > 0){
+    while($row = mysqli_fetch_assoc($result)){
+        $commentDatas[] = $row;
+    }
+    $commentDatas = array_reverse($commentDatas);
+    
+}
 
 
 foreach($datas as $value){
@@ -106,7 +123,7 @@ foreach($datas as $value){
 
 
 
-    <title>Blog test</title>
+    <title>Trials Editor Blog</title>
   </head>
   <body style="">
 <!--navbar-->
@@ -135,16 +152,16 @@ foreach($datas as $value){
       <div id="" class="m-4" style="height: auto; box-shadow: 4px 4px 10px grey;  ">
 <form action="index.php" method="post">
   <div class="form-group">
-    
+    <p>titre</p>
     <input name="titre" type="text" class="form-control " id="exampleFormControlInput1" >
   </div>
  
   <div class="form-group">
-    
+    <p>détails</p>
     <textarea name="description" type="text" class="form-control" id="exampleFormControlTextarea1" rows="10"></textarea>
   </div>
   
-  <input type="submit" name="submit" class="btn btn-outline-primary">
+  <input type="submit" name="submit" class="btn btn-outline-primary w-50 mx-auto">
 </form>
       </div>
       
@@ -158,23 +175,43 @@ foreach($datas as $value){
     
     <?php foreach($datas as $value): ?>
     
-    <?php  echo  "
-    <div style='box-shadow: 4px 4px 10px grey; text-align: center; '>
-    <h1 style='color : #007bff;'>" . $value['title'] . "</h1>
-    </div>
-    ";    ?>
+    <?php 
+     $id = $value['id'];
+     
+
+   
+    echo $id.
+    "<div style='box-shadow: 4px 4px 10px grey; text-align: center; padding: 5% '>
+    <h1 style='color : #007bff;'>" . $value['title'] . "</h1>".
+    "<hr style='height: 6px; background-color: black; width: 75%; margin-left: auto; margin-right: auto;'>".
+    "<p>" . $value['description'] . "</p>".
+        "<p style='color: white; background-color: #007bff;' class='w-50 mx-auto'>" . $value['date'] . "</p>".
+        
+        "<form action='index.php' method='post'>
+        <input name='comments' type='text' class='form-control' id='exampleFormControlInput1' >
+        <input type='submit' name='submitcomment$id' value='commenter '>
+        </form>
+        ".
+        "<p>" . $value['comments'] . "</p>".
+    "</div>";  
     
-    <?php  echo  "
-    <div style='box-shadow: 4px 4px 10px grey; '>
-    <p>" . $value['description'] . "</p>
-    </div>
-    ";    ?>
+         if(isset($_POST['submitcomment'.$id])){
+            $sql = "INSERT INTO comments (comments)
+VALUES ('$comments')";
+        // $sql = "UPDATE test SET comments ='$comments' WHERE id= $id";
+
+
+if(mysqli_query($conn, $sql)){
+  echo "comment added";
+
+  
+  
+} else {
+  
+}
+         }    
+    ?>
     
-        <?php  echo  "
-    <div style='box-shadow: 4px 4px 10px grey; '>
-    <p>" . $value['date'] . "</p>
-    </div>
-    ";    ?>
     
     <?php endforeach ?>
     
