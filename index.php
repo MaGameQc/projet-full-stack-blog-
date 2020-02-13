@@ -3,9 +3,6 @@ session_start();
 $_SESSION['submit'];
 $session = $_SESSION['submit'];
 
-$titre = $_POST['titre'];
-$description = $_POST['description'];
-
 
 
  include 'databaseConnection.php';
@@ -17,7 +14,11 @@ $description = $_POST['description'];
 
  //Jinitialise la session
 
+// $titre = $_POST['titre'];
+$description = $_POST['description'];
 
+$titre = mysqli_real_escape_string($conn, $_POST['titre']);
+$description = mysqli_real_escape_string($conn, $_POST['description']);
 
 
 ?>
@@ -26,56 +27,6 @@ $description = $_POST['description'];
 
 <?php 
 
-
-
-
-// // $titre =  mysqli_real_escape_string($conn, $_POST['titre']);
-// $description = mysqli_real_escape_string($conn, $_POST['description']);
-
-
-
-
-
-
-
-
-
-
-// //  if(isset($_POST['submit'] )){
-// if($_SESSION['submit'] == $titre ){
-//     // echo "shitface";
-// }
-// if(isset($_POST['submit'] ) && $_SESSION['submit'] == $titre ){
-//     // echo  "arleady exist 1111" . "<br>";
-
-// }
-// else if(empty($titre)){
-//     echo "rien";
-// }
-
-// else {
-// $date = date("Y-m-d H:i:s"); // If your mysql column is datetime
-
-//     $sql = "INSERT INTO test (title, description, date) VALUES ('$titre', '$description', now() + INTERVAL 2 HOUR )"; 
-    
-    
-//       $_SESSION['submit'] = $_POST['titre'];
-    
-//     if(mysqli_query($conn, $sql)){
-//     echo "Records inserted successfully.";
-//       // Redirect to another page
-
-       
-      
-// } else{
-//     echo "ERROR: Could not able to execute $sql. " ;
-// }
-
-
-// } 
-
-
-// // }
 
 
 
@@ -191,7 +142,7 @@ if(mysqli_num_rows($result) > 0){
     "</div>"; 
     
     // afficher les commentaires
-
+ getComments($conn, $commentsArray, $id);
 
  
     ?>
@@ -202,13 +153,17 @@ if(mysqli_num_rows($result) > 0){
     <?php endforeach ?>
     
     
-    <?php foreach($datas as $value): ?>
+
     <?php 
-                
-         echo "<div >". getComments($conn). "</div>";
-    
+        
+        
+        
+       
+        
+
+
     ?>
-    <?php endforeach ?>
+    
     
 
     
