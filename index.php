@@ -1,9 +1,24 @@
 <?php 
-
 session_start();
-// $_SESSION['submit'] = "";
- //Jinitialise la session
+$_SESSION['submit'];
+$session = $_SESSION['submit'];
+
+$titre = $_POST['titre'];
+$description = $_POST['description'];
+
+
+
+ include 'databaseConnection.php';
  
+
+ include 'post.php';
+  include 'comment.inc.php';
+ 
+
+ //Jinitialise la session
+
+
+
 
 ?>
 
@@ -11,20 +26,11 @@ session_start();
 
 <?php 
 
-//info pour connexion à la database
-$servername = "mysql.helpinghost.net:3306";
-$username = "magameca_diemetop";
-$password = "soadfan2011";
-$dbname =  "magameca_complete-blog-php";
 
 
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-$titre = $_POST['titre'];
-$description = $_POST['description'];
-$description = mysqli_real_escape_string($conn, $_POST['description']);
 
-$comments = $_POST['comments'];
-// $comments = mysqli_real_escape_string($conn, $comments);
+// // $titre =  mysqli_real_escape_string($conn, $_POST['titre']);
+// $description = mysqli_real_escape_string($conn, $_POST['description']);
 
 
 
@@ -33,41 +39,43 @@ $comments = $_POST['comments'];
 
 
 
-//  if(isset($_POST['submit'] )){
-if($_SESSION['submit'] == $titre ){
-    // echo "shitface";
-}
-if(isset($_POST['submit'] ) && $_SESSION['submit'] == $titre ){
-    // echo  "arleady exist 1111" . "<br>";
 
-}
-else if(empty($titre)){
-    echo "rien";
-}
 
-else {
-$date = date("Y-m-d H:i:s"); // If your mysql column is datetime
+// //  if(isset($_POST['submit'] )){
+// if($_SESSION['submit'] == $titre ){
+//     // echo "shitface";
+// }
+// if(isset($_POST['submit'] ) && $_SESSION['submit'] == $titre ){
+//     // echo  "arleady exist 1111" . "<br>";
 
-    $sql = "INSERT INTO test (title, description, date) VALUES ('$titre', '$description', now() + INTERVAL 2 HOUR )"; 
+// }
+// else if(empty($titre)){
+//     echo "rien";
+// }
+
+// else {
+// $date = date("Y-m-d H:i:s"); // If your mysql column is datetime
+
+//     $sql = "INSERT INTO test (title, description, date) VALUES ('$titre', '$description', now() + INTERVAL 2 HOUR )"; 
     
     
-      $_SESSION['submit'] = $_POST['titre'];
+//       $_SESSION['submit'] = $_POST['titre'];
     
-    if(mysqli_query($conn, $sql)){
-    echo "Records inserted successfully.";
-      // Redirect to another page
+//     if(mysqli_query($conn, $sql)){
+//     echo "Records inserted successfully.";
+//       // Redirect to another page
 
        
       
-} else{
-    echo "ERROR: Could not able to execute $sql. " ;
-}
-
-
-} 
-
-
+// } else{
+//     echo "ERROR: Could not able to execute $sql. " ;
 // }
+
+
+// } 
+
+
+// // }
 
 
 
@@ -84,24 +92,8 @@ if(mysqli_num_rows($result) > 0){
 }
 
 
-$commentDatas = array();
-if(mysqli_num_rows($result) > 0){
-    while($row = mysqli_fetch_assoc($result)){
-        $commentDatas[] = $row;
-    }
-    $commentDatas = array_reverse($commentDatas);
-    
-}
 
 
-foreach($datas as $value){
-//   print_r( $value ['title']."<br>");
-}
-
-//  mysqli_close($conn);
-
-  // Redirect to another page
-// echo "allo" . $_POST['titre'] . "allo";
 ?>
 <html lang="en">
    
@@ -148,71 +140,77 @@ foreach($datas as $value){
       
       
       <h1 style="color : #007bff;">créer un post</h1>
-      
-      <div id="" class="m-4" style="height: auto; box-shadow: 4px 4px 10px grey;  ">
-<form action="index.php" method="post">
-  <div class="form-group">
-    <p>titre</p>
-    <input name="titre" type="text" class="form-control " id="exampleFormControlInput1" >
-  </div>
+   <?php echo    
+     " <div  class='m-4' style='height: auto; box-shadow: 4px 4px 10px grey;'  >".
+
+"<form action='".setPosts($session, $conn, $titre, $description)."'  method='post'>" .
+  "<div class='form-group'>".
+    "<p>titre</p>".
+    "<input name='titre' type=text' class='form-control' id='exampleFormControlInput1' >".
+  "</div>".
  
-  <div class="form-group">
-    <p>détails</p>
-    <textarea name="description" type="text" class="form-control" id="exampleFormControlTextarea1" rows="10"></textarea>
-  </div>
+  "<div class='form-group'>".
+    "<p>détails</p>".
+    "<textarea name='description' type='text' class='form-control' id='exampleFormControlTextarea1' rows='10'></textarea>".
+  "</div>".
   
-  <input type="submit" name="submit" class="btn btn-outline-primary w-50 mx-auto">
-</form>
-      </div>
+  "<input type='submit' name='submit' class='btn btn-outline-primary w-50 mx-auto'>".
+"</form>".
+      "</div>".
       
-      <div class="postsRecent container-fluid">
+      "<div class='postsRecent container-fluid'>".
           
-      </div>
+      "</div>";
       
+    ?>
     
     
-    
-    
+
     <?php foreach($datas as $value): ?>
     
     <?php 
-     $id = $value['id'];
-     
-
+    
+    
+    $id = $value['id'];
+    echo $id;
    
-    echo $id.
+    echo
     "<div style='box-shadow: 4px 4px 10px grey; text-align: center; padding: 5% '>
     <h1 style='color : #007bff;'>" . $value['title'] . "</h1>".
     "<hr style='height: 6px; background-color: black; width: 75%; margin-left: auto; margin-right: auto;'>".
     "<p>" . $value['description'] . "</p>".
         "<p style='color: white; background-color: #007bff;' class='w-50 mx-auto'>" . $value['date'] . "</p>".
         
-        "<form action='index.php' method='post'>
+        
+        "<form action='".setComments($conn, $id)."' method='post'>
         <input name='comments' type='text' class='form-control' id='exampleFormControlInput1' >
-        <input type='submit' name='submitcomment$id' value='commenter '>
+        <input type='submit' name='commentSubmit$id' value='commenter '>
         </form>
         ".
-        "<p style='height: auto;'>" . $value['comments'] . "</p>".
-    "</div>";  
+
+    "</div>"; 
     
-         if(isset($_POST['submitcomment'.$id])){
-
-        $sql = "UPDATE test SET comments = concat(comments, '$comments', '\n') WHERE id= $id";
+    // afficher les commentaires
 
 
-if(mysqli_query($conn, $sql)){
-  echo "comment added";
-
-  
-  
-} else {
-  
-}
-         }    
+ 
     ?>
     
     
+    
+    
     <?php endforeach ?>
+    
+    
+    <?php foreach($datas as $value): ?>
+    <?php 
+                
+         echo "<div >". getComments($conn). "</div>";
+    
+    ?>
+    <?php endforeach ?>
+    
+
     
     
     <!-- Footer -->
