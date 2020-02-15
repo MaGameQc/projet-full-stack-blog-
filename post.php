@@ -4,7 +4,8 @@ session_start();
 
 function setPosts($session, $conn, $titre, $description){
 
-    if(isset($_POST['submit']) && $session != $titre){
+    if(isset($_POST['submit']) && $session != $titre && $titre != ""){
+        
      
         $sql = "INSERT INTO test (title, description, date) VALUES ('$titre', '$description', now() + INTERVAL 2 HOUR )";
         

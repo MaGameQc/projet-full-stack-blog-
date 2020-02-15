@@ -1,15 +1,23 @@
 <?php
+session_start();
 
-function setComments($conn, $id) {
-    if (isset($_POST['commentSubmit'.$id])){
-        $comments = $_POST['comments'];
+
+function setComments($conn, $id, $sessionComments) {
+    
+    $comments = $_POST['comments'];
+        $comments = mysqli_real_escape_string($conn, $_POST['comments']);
         
-        $sql = "INSERT INTO comments (comments, postId) VALUES ('$comments', $id)";
+    if (isset($_POST['commentSubmit'.$id]) && $sessionComments != $comments){
+        
+        
+        $sql = "INSERT INTO comments (comments, postId, date) VALUES ('$comments', '$id', now() + INTERVAL 2 HOUR )";
         
         // créer une connection et passé la metho définie dans $sql dans cette requete dans la database
         
         
         $result = mysqli_query($conn, $sql); 
+        
+        $_SESSION['comments'] = $comments;
     }
 }
 
@@ -27,14 +35,17 @@ if(mysqli_num_rows($result) > 0){
         $commentsArray[] = $row;
     }
     
-
+ $commentsArray = array_reverse($commentsArray);
     
     foreach($commentsArray as $value2){
         if($id == $value2['postId']){
-        echo "<p style='text-align : center'>" . $value2['comments'] . "</p>" . "<br>";
+        echo "<div style='margin-top : 1%;' class='speech-bubble mx-auto'><p style='padding-left: 5%; padding-right: 5%; text-align: center;'>" . $value2['comments'] . "</p>
+        <div style='background-color: #007bff; text-align: center;' class='w-100 mx-auto rounded'><p style='color : white;'>" . $value2['date'] . "</p></div>
+        </div>" . "<br>" 
+        ;
     }
 }
-//     // $commentsArray = array_reverse($commentsArray);
+   
     
 }
 

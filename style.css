@@ -1,0 +1,49 @@
+.speech-bubble { 
+    position: relative; 
+    background: #03fc84; 
+    border-radius: .4em; 
+    width: 50%;
+    padding-top: 1%;
+    
+    
+}
+.speech-bubble:after {
+content: '';
+position: absolute; 
+left: 0; top: 50%;
+width: 0;
+height: 0;
+border: 20px solid transparent; 
+border-right-color: #03fc84;
+border-left: 0;
+border-top: 0; 
+margin-top: -30px; 
+margin-left: -20px; 
+    
+}
+
+
+
+
+
+
+
+#background {
+    z-index: -4;
+
+ background-position: center fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	background-image: url("uploads/trialsBackgroundBlur.png");
+	min-width: 100%;
+	min-height: 100%;
+	
+	z-index: -100;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-ms-background-size: cover;
+	-o-background-size: cover;
+background-size: cover;
+}
+  

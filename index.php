@@ -1,7 +1,10 @@
 <?php 
+
 session_start();
 $_SESSION['submit'];
 $session = $_SESSION['submit'];
+$_SESSION['comments'];
+$sessionComments = $_SESSION['comments']; 
 
 
 
@@ -60,6 +63,9 @@ if(mysqli_num_rows($result) > 0){
     
     <!--css external file-->
     <link rel="stylesheet" href="static/css/public_styling.css">
+    
+        <!--css external file-->
+    <link rel="stylesheet" href="style.css" type="text/css">
 
  
 
@@ -68,9 +74,11 @@ if(mysqli_num_rows($result) > 0){
 
     <title>Trials Editor Blog</title>
   </head>
-  <body style="">
+  <body >
+      <div id="background">
 <!--navbar-->
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <img src="uploads/trialsThumbnail.png" style="height: 50px;" class="">
   <a class="navbar-brand" style="font-weight: 700;" href="#">TrialsEditorBlog.com</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -78,16 +86,80 @@ if(mysqli_num_rows($result) > 0){
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Accueil <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Publier</a>
+        <a class="nav-link" href="#">Publish</a>
       </li>
 
     </ul>
   </div>
 </nav>
 <!--navbar-->
+
+
+<?php
+$target_dir = "uploads/";
+$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+$uploadOk = 1;
+$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+// Check if image file is a actual image or fake image
+if(isset($_POST["submit"])) {
+    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+    if($check !== false) {
+        echo "File is an image - " . $check["mime"] . ".";
+        $uploadOk = 1;
+    } else {
+        echo "File is not an image.";
+        $uploadOk = 0;
+    }
+}
+// Check if file already exists
+if (file_exists($target_file)) {
+    echo "Sorry, file already exists.";
+    $uploadOk = 0;
+}
+// Check file size
+if ($_FILES["fileToUpload"]["size"] > 50000000) {
+    echo "Sorry, your file is too large.";
+    $uploadOk = 0;
+}
+// Allow certain file formats
+if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+&& $imageFileType != "gif" ) {
+    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+    $uploadOk = 0;
+}
+// Check if $uploadOk is set to 0 by an error
+if ($uploadOk == 0) {
+    echo "Sorry, your file was not uploaded.";
+// if everything is ok, try to upload file
+} else {
+    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+        echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+    } else {
+        echo "Sorry, there was an error uploading your file.";
+    }
+}
+?>
+
+
+
+
+
+
+
+<form action="" method="post" enctype="multipart/form-data">
+    Select image to upload:
+    <input type="file" name="fileToUpload" id="fileToUpload">
+    <input type="submit" value="Upload Image" name="submit">
+</form>
+
+
+
+
+
+
       
       
       <h1 style="color : #007bff;">créer un post</h1>
@@ -105,7 +177,7 @@ if(mysqli_num_rows($result) > 0){
     "<textarea name='description' type='text' class='form-control' id='exampleFormControlTextarea1' rows='10'></textarea>".
   "</div>".
   
-  "<input type='submit' name='submit' class='btn btn-outline-primary w-50 mx-auto'>".
+  "<input type='submit' name='submit' class='btn btn-outline-primary w-25 mx-auto'>".
 "</form>".
       "</div>".
       
@@ -128,12 +200,12 @@ if(mysqli_num_rows($result) > 0){
     echo
     "<div style='box-shadow: 4px 4px 10px grey; text-align: center; padding: 5% '>
     <h1 style='color : #007bff;'>" . $value['title'] . "</h1>".
-    "<hr style='height: 6px; background-color: black; width: 75%; margin-left: auto; margin-right: auto;'>".
+    "<hr style='height: 6px; background-color: #03fc84 !important; width: 75%; margin-left: auto; margin-right: auto;'>".
     "<p>" . $value['description'] . "</p>".
         "<p style='color: white; background-color: #007bff;' class='w-50 mx-auto'>" . $value['date'] . "</p>".
         
         
-        "<form action='".setComments($conn, $id)."' method='post'>
+        "<form action='".setComments($conn, $id, $sessionComments)."' method='post'>
         <input name='comments' type='text' class='form-control' id='exampleFormControlInput1' >
         <input type='submit' name='commentSubmit$id' value='commenter '>
         </form>
@@ -164,7 +236,7 @@ if(mysqli_num_rows($result) > 0){
 
     ?>
     
-    
+    </div>
 
     
     
