@@ -1,10 +1,12 @@
 .speech-bubble { 
     position: relative; 
-    background: #03fc84; 
+    background: black; 
     border-radius: .4em; 
     width: 50%;
     padding-top: 1%;
-    
+    font-family: 'Odibee Sans', cursive;
+font-weight: 400;
+font-size: 1.2rem;
     
 }
 .speech-bubble:after {
@@ -19,7 +21,7 @@ border-left: 0;
 border-top: 0; 
 margin-top: -30px; 
 margin-left: -20px; 
-    
+
 }
 
 
@@ -47,3 +49,9 @@ margin-left: -20px;
 background-size: cover;
 }
   
+  #titlePost{
+    color : #ff6016;    
+    background-color: black;
+  font-family: 'Odibee Sans', cursive; 
+  font-weight: 400; font-size: 3.5rem;
+  }

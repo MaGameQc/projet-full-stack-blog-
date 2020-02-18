@@ -26,7 +26,7 @@ $description = mysqli_real_escape_string($conn, $_POST['description']);
 
 ?>
 
-<!doctype html>
+
 
 <?php 
 
@@ -49,33 +49,31 @@ if(mysqli_num_rows($result) > 0){
 
 
 ?>
-<html lang="en">
-   
-  <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <!-- Required meta tags -->
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
-    
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <!-- Required meta tags -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
-    <!--css external file-->
-    <link rel="stylesheet" href="static/css/public_styling.css">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     
         <!--css external file-->
-    <link rel="stylesheet" href="style.css" type="text/css">
+        <link rel="stylesheet" href="static/css/public_styling.css">
+        
+        <!--google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Odibee+Sans&display=swap" rel="stylesheet"> 
 
- 
+        <!--css external file-->
+        <link rel="stylesheet" href="style.css" type="text/css">
 
-
-
-
-    <title>Trials Editor Blog</title>
-  </head>
-  <body >
-      <div id="background">
+        <title>Trials Editor Blog</title>
+    </head>
+  
+<body>
+    <div id="background">
 <!--navbar-->
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <img src="uploads/trialsThumbnail.png" style="height: 50px;" class="">
@@ -98,65 +96,6 @@ if(mysqli_num_rows($result) > 0){
 <!--navbar-->
 
 
-<?php
-$target_dir = "uploads/";
-$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-$uploadOk = 1;
-$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-// Check if image file is a actual image or fake image
-if(isset($_POST["submit"])) {
-    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-    if($check !== false) {
-        echo "File is an image - " . $check["mime"] . ".";
-        $uploadOk = 1;
-    } else {
-        echo "File is not an image.";
-        $uploadOk = 0;
-    }
-}
-// Check if file already exists
-if (file_exists($target_file)) {
-    echo "Sorry, file already exists.";
-    $uploadOk = 0;
-}
-// Check file size
-if ($_FILES["fileToUpload"]["size"] > 50000000) {
-    echo "Sorry, your file is too large.";
-    $uploadOk = 0;
-}
-// Allow certain file formats
-if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-&& $imageFileType != "gif" ) {
-    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-    $uploadOk = 0;
-}
-// Check if $uploadOk is set to 0 by an error
-if ($uploadOk == 0) {
-    echo "Sorry, your file was not uploaded.";
-// if everything is ok, try to upload file
-} else {
-    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
-    } else {
-        echo "Sorry, there was an error uploading your file.";
-    }
-}
-?>
-
-
-
-
-
-
-
-<form action="" method="post" enctype="multipart/form-data">
-    Select image to upload:
-    <input type="file" name="fileToUpload" id="fileToUpload">
-    <input type="submit" value="Upload Image" name="submit">
-</form>
-
-
-
 
 
 
@@ -166,7 +105,7 @@ if ($uploadOk == 0) {
    <?php echo    
      " <div  class='m-4' style='height: auto; box-shadow: 4px 4px 10px grey;'  >".
 
-"<form action='".setPosts($session, $conn, $titre, $description)."'  method='post'>" .
+"<form action='".setPosts($session, $conn, $titre, $description, $target_file_path)."'  method='post' enctype='multipart/form-data'>" .
   "<div class='form-group'>".
     "<p>titre</p>".
     "<input name='titre' type=text' class='form-control' id='exampleFormControlInput1' >".
@@ -176,6 +115,14 @@ if ($uploadOk == 0) {
     "<p>détails</p>".
     "<textarea name='description' type='text' class='form-control' id='exampleFormControlTextarea1' rows='10'></textarea>".
   "</div>".
+  
+  
+  "
+    Select image to upload:
+    <input type='file' name='fileToUpload' id='fileToUpload'>
+    <!--<input type='submit' value='Upload Image' name='submit'>-->
+    " .
+  
   
   "<input type='submit' name='submit' class='btn btn-outline-primary w-25 mx-auto'>".
 "</form>".
@@ -196,17 +143,24 @@ if ($uploadOk == 0) {
     
     $id = $value['id'];
     echo $id;
+    
+    $imgSrc = $value['image'];
    
     echo
     "<div style='box-shadow: 4px 4px 10px grey; text-align: center; padding: 5% '>
-    <h1 style='color : #007bff;'>" . $value['title'] . "</h1>".
+    <h1 id='titlePost'>" . $value['title'] . "</h1>".
     "<hr style='height: 6px; background-color: #03fc84 !important; width: 75%; margin-left: auto; margin-right: auto;'>".
     "<p>" . $value['description'] . "</p>".
-        "<p style='color: white; background-color: #007bff;' class='w-50 mx-auto'>" . $value['date'] . "</p>".
+    "<img src='$imgSrc' class='img-fluid col-md-4'>".
+        "<p style='color: black; background-color: #03fc84;' class='w-50 mx-auto'>" . $value['date'] . "</p>".
         
         
-        "<form action='".setComments($conn, $id, $sessionComments)."' method='post'>
+        "<form action='".setComments($conn, $id, $sessionComments)."' method='post' enctype='multipart/form-data'>
         <input name='comments' type='text' class='form-control' id='exampleFormControlInput1' >
+        
+ Select image to upload:
+    <input type='file' name='fileToUpload' id='fileToUpload'>
+        
         <input type='submit' name='commentSubmit$id' value='commenter '>
         </form>
         ".
