@@ -60,7 +60,7 @@ if ($uploadOk == 0) {
         $result = mysqli_query($conn, $sql); 
         $_SESSION['submit'] = $titre;
     }else{
-        echo "cant have a post with the same title";
+        // echo "cant have a post with the same title";
     }
     
 }

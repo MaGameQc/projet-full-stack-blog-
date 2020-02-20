@@ -37,7 +37,7 @@ margin-left: -20px;
 	top: 0;
 	right: 0;
 	bottom: 0;
-	background-image: url("uploads/trialsBackgroundBlur.png");
+	background-image: url("images/graffitiBackground.jpg");
 	min-width: 100%;
 	min-height: 100%;
 	
@@ -55,3 +55,82 @@ background-size: cover;
   font-family: 'Odibee Sans', cursive; 
   font-weight: 400; font-size: 3.5rem;
   }
+  
+  #formTitle, #formDetails, #formUploadTitle{
+      font-family: 'Odibee Sans', cursive; font-weight: 400; font-size: 1.7rem; 
+  }
+  
+  .input {
+            font-family: 'Odibee Sans', cursive; font-weight: 400; font-size: 1.2rem; 
+      background-color: black; 
+      color: white;
+  }
+  
+   .form-control:focus {
+      font-family: 'Odibee Sans', cursive; font-weight: 400; font-size: 1.2rem; 
+      background-color: black; 
+      color: white;
+  }
+  
+
+
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.btnUpload {
+  border: 2px solid gray;
+  color: white;
+  background-color: black;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'Odibee Sans', cursive; font-weight: 400; font-size: 1.2rem; 
+}
+
+.upload-btn-wrapper:hover .btnUpload {
+  border: 2px solid #ff6016;
+  color: black;
+  background-color: #03fc84;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'Odibee Sans', cursive; font-weight: 400; font-size: 1.2rem; 
+  
+}
+
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+#btnSend{
+      border: 2px solid gray;
+  color: white;
+  background-color: black;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'Odibee Sans', cursive; font-weight: 400; font-size: 1.2rem; 
+}
+
+#btnSend:hover{
+  border: 2px solid #ff6016;
+  color: black;
+  background-color: #03fc84;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'Odibee Sans', cursive; font-weight: 400; font-size: 1.2rem; 
+}

@@ -52,8 +52,8 @@ if(mysqli_num_rows($result) > 0){
 
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        
         <!-- Required meta tags -->
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
@@ -68,18 +68,21 @@ if(mysqli_num_rows($result) > 0){
 
         <!--css external file-->
         <link rel="stylesheet" href="style.css" type="text/css">
+        
+        <!--font awesome-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css">
 
         <title>Trials Editor Blog</title>
     </head>
   
 <body>
-    <div id="background">
+    <div>
 <!--navbar-->
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <img src="uploads/trialsThumbnail.png" style="height: 50px;" class="">
-  <a class="navbar-brand" style="font-weight: 700;" href="#">TrialsEditorBlog.com</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
+      <nav class="navbar navbar-expand-lg " style="border: 2px solid #03fc84; background-color: black !important; color: white; border-radius: 0px;">
+          <img src="images/trialsLogo.png" style="height: 50px;" class="">
+  <a class="navbar-brand" style="font-weight: 700; color: #ff6016;" href="#">TrialsEditorBlog.com</a>
+  <button class="navbar-toggler" style="border: 2px solid #03fc84;" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+   <i class="fas fa-bars" style="color: white;"></i>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
@@ -100,37 +103,61 @@ if(mysqli_num_rows($result) > 0){
 
 
       
+  
+      <h1 style="color : black; font-family: 'Odibee Sans', cursive; font-weight: 400; font-size: 3.5rem; background-color: #03fc84;" class="m-0">Create A Post</h1>
       
-      <h1 style="color : #007bff;">créer un post</h1>
+          
    <?php echo    
-     " <div  class='m-4' style='height: auto; box-shadow: 4px 4px 10px grey;'  >".
+     "
+     <div class='container-fluid m-0 p-0'  id='background'>
+              <div class='row m-0 p-0 col-12 mx-auto'>
+     <div  class='my-4 col-md-6 p-0 mx-auto' style='height: auto; box-shadow: 4px 4px 10px grey; background-color: rgba(0, 0, 0, 0.65); '  >".
 
 "<form action='".setPosts($session, $conn, $titre, $description, $target_file_path)."'  method='post' enctype='multipart/form-data'>" .
-  "<div class='form-group'>".
-    "<p>titre</p>".
-    "<input name='titre' type=text' class='form-control' id='exampleFormControlInput1' >".
+  "<div class='form-group' id='formTitle'>".
+    "<p style='background-color : #03fc84; '>TITLE</p>".
+    "<input name='titre' type=text' class='input form-control w-75' id='exampleFormControlInput1' >".
   "</div>".
  
   "<div class='form-group'>".
-    "<p>détails</p>".
-    "<textarea name='description' type='text' class='form-control' id='exampleFormControlTextarea1' rows='10'></textarea>".
+    "<p id='formDetails' style='background-color : #03fc84;'>DETAILS</p>".
+    "<textarea style='' name='description' type='text' class='input form-control w-75 mx-auto' id='exampleFormControlTextarea1' rows='6'></textarea>".
   "</div>".
   
   
   "
-    Select image to upload:
-    <input type='file' name='fileToUpload' id='fileToUpload'>
+    <p style='background-color : #03fc84;' id='formUploadTitle'>IMAGE TO UPLOAD</p>
+    
     <!--<input type='submit' value='Upload Image' name='submit'>-->
     " .
   
   
-  "<input type='submit' name='submit' class='btn btn-outline-primary w-25 mx-auto'>".
+  "
+  <div class=row>
+  <div class='upload-btn-wrapper mx-auto'>
+  <button class='btnUpload'>Upload Image File</button>
+  <input type='file' name='fileToUpload' id='fileToUpload' >
+</div>
+</div>
+".
+  
+  "
+  <div class='row'>
+  
+  <button type='submit' name='submit'  id='btnSend' class='w-25 mx-auto btn btn-primary'>Publish
+  <i class='fas fa-paper-plane' style='font-size: 2.5rem; color : #ff6016; display: inline-block;'></i>
+  </button>
+  </div>
+  ".
 "</form>".
       "</div>".
       
       "<div class='postsRecent container-fluid'>".
           
-      "</div>";
+      "</div>
+      </div>
+    </div>
+      ";
       
     ?>
     
@@ -156,6 +183,7 @@ if(mysqli_num_rows($result) > 0){
         
         
         "<form action='".setComments($conn, $id, $sessionComments)."' method='post' enctype='multipart/form-data'>
+        
         <input name='comments' type='text' class='form-control' id='exampleFormControlInput1' >
         
  Select image to upload:
