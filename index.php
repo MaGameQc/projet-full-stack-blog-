@@ -49,7 +49,9 @@ if(mysqli_num_rows($result) > 0){
 
 
 ?>
+<?php
 
+echo'
 <!doctype html>
 <html lang="en">
     <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -74,7 +76,8 @@ if(mysqli_num_rows($result) > 0){
 
         <title>Trials Editor Blog</title>
     </head>
-  
+    ';
+  ?>
 <body>
     <div>
 <!--navbar-->
@@ -140,10 +143,10 @@ if(mysqli_num_rows($result) > 0){
 </div>
 </div>
 ".
-  
+
   "
   <div class='row'>
-  
+
   <button type='submit' name='submit'  id='btnSend' class='w-25 mx-auto btn btn-primary'>Publish
   <i class='fas fa-paper-plane' style='font-size: 2.5rem; color : #ff6016; display: inline-block;'></i>
   </button>
@@ -174,26 +177,51 @@ if(mysqli_num_rows($result) > 0){
     $imgSrc = $value['image'];
    
     echo
-    "<div style='box-shadow: 4px 4px 10px grey; text-align: center; padding: 5% '>
-    <h1 id='titlePost'>" . $value['title'] . "</h1>".
-    "<hr style='height: 6px; background-color: #03fc84 !important; width: 75%; margin-left: auto; margin-right: auto;'>".
-    "<p>" . $value['description'] . "</p>".
-    "<img src='$imgSrc' class='img-fluid col-md-4'>".
-        "<p style='color: black; background-color: #03fc84;' class='w-50 mx-auto'>" . $value['date'] . "</p>".
+    "<div class='container-fluid' style='text-align: center; padding: 5% '>
+    <div class='row'>
+    <h1 id='titlePost' class='col-md-8 mx-auto' style='word-break: break-word;'>" . $value['title'] . "</h1>".
+    "<hr class='w-50' style='height: 6px; background-color: #03fc84 !important;  margin-left: auto; margin-right: auto;'>".
+    "
+    <div class='row col-12'>
+    <img src='$imgSrc' class='img-fluid col-md-4 mx-auto'>
+    </div>
+    
+    <div class='container-fluid'>
+     <div class='row col-12'>
+        <p class='col-md-8' style='word-break: break-word;' >" . $value['description'] . "</p>
+    </div>
+    </div>
+    ".
+        "<p style='color: black;  background-color: #03fc84;' class='w-50 mx-auto'>" . $value['date'] . "</p>".
         
         
-        "<form action='".setComments($conn, $id, $sessionComments)."' method='post' enctype='multipart/form-data'>
+        "<div class='container-fluid'>
+        <div class='row col-md-12'>
+        <form action='".setComments($conn, $id, $sessionComments)."' method='post' enctype='multipart/form-data' class='col-md-8 mx-auto'>
         
         <input name='comments' type='text' class='form-control' id='exampleFormControlInput1' >
         
  Select image to upload:
     <input type='file' name='fileToUpload' id='fileToUpload'>
         
-        <input type='submit' name='commentSubmit$id' value='commenter '>
+       
+        
+        
+  
+
+  <button type='submit' name='commentSubmit$id'  id='btnSend' class='w-25 mx-auto btn btn-primary'>Comment
+  <i class='fas fa-paper-plane' style='font-size: 2.5rem; color : #ff6016; display: inline-block;'></i>
+  </button>
+ 
+        
         </form>
         ".
 
-    "</div>"; 
+    "
+    </div>
+    </div>
+    </div>
+    </div>"; 
     
     // afficher les commentaires
  getComments($conn, $commentsArray, $id);
@@ -243,7 +271,7 @@ if(mysqli_num_rows($result) > 0){
       <!-- Grid column -->
 
       <hr class="clearfix w-100 d-md-none pb-3">
-
+<?php echo'
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script
@@ -254,3 +282,4 @@ if(mysqli_num_rows($result) > 0){
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   </body>
 </html>
+'?>
